@@ -8,6 +8,12 @@
 </head>
 <body>
 
+<!-- Floating Bubble (follows mouse) -->
+<div id="floating-bubble" class="floating-bubble"></div>
+
+<!-- Glass Shatter Particles (Arcaea-style background effect) -->
+<div id="glass-particles" class="glass-particles"></div>
+
 <!-- ===== Navigation Bar ===== -->
 <nav class="navbar">
     <ul>
@@ -150,6 +156,145 @@
         <p class="anime-text">Email: <a href="mailto:sirius.siyue@gmail.com">sirius.siyue@gmail.com</a></p>
     </div>
 </section>
+<!-- ===== FLOATING AUDIO PLAYER ===== -->
+<div id="floating-player" class="floating-player" role="region" aria-label="Floating audio player" aria-live="polite" tabindex="0">
+    <div class="fp-controls" style="position:relative;">
+        <button type="button" class="fp-unmute" title="取消静音" aria-hidden="true">取消静音</button>
+        <div class="fp-top-row">
+            <button class="fp-play" aria-label="播放/暂停" title="播放">▶</button>
+            <div class="fp-times"><span class="fp-time-cur">0:00</span> / <span class="fp-time-dur">0:00</span></div>
+            <input type="range" class="fp-progress" min="0" value="0" step="1" aria-label="进度" />
+        </div>
+        <div class="fp-bottom-row">
+            <div class="fp-right">
+                <input type="range" class="fp-volume" min="0" max="1" step="0.01" value="0.8" aria-label="音量" title="音量" />
+                <button class="fp-mute" aria-label="静音" title="静音">🔊</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+/* Floating audio player: plays songs/song1.mp3 with play/pause, seek and volume controls + autoplay fallback */
+(function(){
+    const src = 'songs/song1.mp3';
+    const audio = new Audio(src);
+    audio.preload = 'metadata';
+
+    const player = document.getElementById('floating-player');
+    const playBtn = player.querySelector('.fp-play');
+    const progress = player.querySelector('.fp-progress');
+    const timeCur = player.querySelector('.fp-time-cur');
+    const timeDur = player.querySelector('.fp-time-dur');
+    const vol = player.querySelector('.fp-volume');
+    const muteBtn = player.querySelector('.fp-mute');
+    const unmuteBtn = player.querySelector('.fp-unmute');
+
+    // Initialize volume and visual fill
+    audio.volume = parseFloat(vol.value) || 0.8;
+    vol.style.setProperty('--vol', (audio.volume * 100).toString());
+
+    function formatTime(s){
+        if (!isFinite(s)) return '0:00';
+        const m = Math.floor(s/60); const sec = Math.floor(s%60).toString().padStart(2,'0');
+        return m + ':' + sec;
+    }
+
+    audio.addEventListener('loadedmetadata', ()=>{
+        progress.max = Math.floor(audio.duration || 0);
+        timeDur.textContent = formatTime(audio.duration || 0);
+    });
+
+    audio.addEventListener('timeupdate', ()=>{
+        if (!progress.dragging) progress.value = Math.floor(audio.currentTime || 0);
+        timeCur.textContent = formatTime(audio.currentTime || 0);
+    });
+
+    audio.addEventListener('ended', ()=>{ playBtn.textContent = '▶'; });
+
+    // Play / Pause
+    playBtn.addEventListener('click', ()=>{
+        if (audio.paused) {
+            audio.play().catch(()=>{});
+            playBtn.textContent = '⏸';
+        } else {
+            audio.pause();
+            playBtn.textContent = '▶';
+        }
+    });
+
+    // Progress interactions
+    progress.addEventListener('input', ()=>{ progress.dragging = true; timeCur.textContent = formatTime(progress.value); });
+    progress.addEventListener('change', ()=>{ audio.currentTime = progress.value; progress.dragging = false; });
+
+    // Volume
+    vol.addEventListener('input', ()=>{
+        audio.volume = parseFloat(vol.value);
+        audio.muted = false;
+        muteBtn.textContent = '🔊';
+        vol.style.setProperty('--vol', (parseFloat(vol.value) * 100).toString());
+    });
+
+    muteBtn.addEventListener('click', ()=>{
+        audio.muted = !audio.muted;
+        muteBtn.textContent = audio.muted ? '🔈' : '🔊';
+    });
+
+    // Autoplay attempt with muted fallback
+    function tryAutoplay(){
+        audio.play().then(()=>{ playBtn.textContent = '⏸'; }).catch(()=>{
+            audio.muted = true;
+            audio.play().catch(()=>{});
+            playBtn.textContent = '⏸';
+            if (unmuteBtn) unmuteBtn.style.display = 'inline-block';
+        });
+    }
+    window.addEventListener('load', ()=>{ setTimeout(tryAutoplay, 250); });
+
+    if (unmuteBtn) {
+        unmuteBtn.addEventListener('click', ()=>{
+            audio.muted = false;
+            audio.play().catch(()=>{});
+            muteBtn.textContent = '🔊';
+            unmuteBtn.style.display = 'none';
+        });
+    }
+
+    // keyboard: space toggles play when player focused
+    player.addEventListener('keydown', (e)=>{ if (e.code === 'Space') { e.preventDefault(); playBtn.click(); } });
+
+})();
+</script>
+
+<!-- Floating Bubble Tracker (follows mouse with smooth easing) -->
+<script>
+(function(){
+    const bubble = document.getElementById('floating-bubble');
+    let mouseX = 0, mouseY = 0;
+    let bubbleX = window.innerWidth / 2, bubbleY = window.innerHeight / 2;
+    
+    // Update bubble position on mouse move
+    document.addEventListener('mousemove', (e)=>{
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+    
+    // Smooth easing animation: bubble follows mouse with offset
+    function animate(){
+        // Ease toward mouse position (20 offset for smooth trailing)
+        const dx = mouseX - bubbleX;
+        const dy = mouseY - bubbleY;
+        bubbleX += dx * 0.1; // ease factor = 0.1 for smooth following
+        bubbleY += dy * 0.1;
+        
+        // Apply transform with slight offset to appear beneath cursor
+        bubble.style.transform = `translate(calc(${bubbleX}px - 50%), calc(${bubbleY}px - 50%))`;
+        
+        requestAnimationFrame(animate);
+    }
+    animate();
+})();
+</script>
 
 </body>
 </html>
