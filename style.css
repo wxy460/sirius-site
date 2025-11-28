@@ -1,0 +1,280 @@
+/* ===== GLOBAL RESET ===== */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    /* translucent layer over the image makes it appear 'more transparent' */
+    background:
+        linear-gradient(rgba(255,255,255,0.28), rgba(255,255,255,0.28)),
+        url("images/bg.jpg") center top / cover no-repeat scroll;
+    color: #333;
+}
+
+/* Anime-style headings */
+h1 {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 900;
+    font-size: 3rem;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ff7eb3 50%, #b39cff 70%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 8px 16px rgba(255,126,179,0.25);
+    margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 2rem; letter-spacing: 1px; }
+}
+
+/* No special-case fixed background; same behavior across devices */
+
+
+/* =====================
+   FLOATING NAVBAR
+   ===================== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: #ffffffcc;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px #0000001a;
+    z-index: 1000;
+}
+
+.navbar ul {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    list-style: none;
+    padding: 15px 0;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.navbar a:hover {
+    color: #6a5acd;
+}
+
+
+/* =====================
+   HOMEPAGE ICON LINKS
+   ===================== */
+.links.icons {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 12px;
+}
+
+.icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: #444;
+    border-radius: 10px;
+    transition: background-color 0.15s, color 0.15s, transform 0.08s;
+}
+
+.icon-link svg {
+    width: 22px;
+    height: 22px;
+}
+
+.icon-link:hover {
+    background: #f2f2ff;
+    color: #6a5acd;
+    transform: translateY(-2px);
+}
+
+.icon-link:focus {
+    outline: 3px solid #dfe6ff;
+    outline-offset: 2px;
+}
+
+
+/* =====================
+   TAGS (Homepage)
+   ===================== */
+.tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 6px 10px;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(100, 100, 120, 0.08);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+
+.tag:hover {
+    background: rgba(255,255,255,0.72);
+}
+
+
+/* =====================
+   PAGE SECTION BASE
+   ===================== */
+.page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;     /* 修复，使内容上下排列 */
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 120px;         /* 预留导航栏空间 + 呼吸感 */
+    text-align: center;
+}
+
+#home, #hobby, #experience, #contact { background: transparent; }
+
+/* Keep navbar readable with a subtle solid background */
+.navbar {
+    background: rgba(255,255,255,0.9);
+}
+
+
+/* =====================
+   AVATAR
+   ===================== */
+.avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+
+/* =====================
+   HOBBY — GAME LOGOS
+   ===================== */
+.game-logos {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.game-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    border-radius: 14px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+}
+
+.game-logo:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+}
+
+.game-logo img {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+
+/* =====================
+   HOBBY — TEXT BELOW LOGOS
+   ===================== */
+.hobby-text {
+    margin-top: 25px;          /* 让文字自然在 LOGO 下方 */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.anime-text {
+    font-family: 'Noto Sans SC', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    letter-spacing: 0.4px;
+    line-height: 1.35;
+    /* solid black color */
+    color: #1a1a1a;
+    /* subtle drop shadow for readability against image */
+    text-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    position: relative;
+    display: inline-block;
+    padding: 8px 14px;
+    border-radius: 12px;
+}
+
+/* glassmorphism border/background for anime-text */
+.anime-text::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 24px rgba(31,30,51,0.12);
+    z-index: -1;
+}
+
+/* links inside anime-text should not show underline and should keep gradient look */
+.anime-text a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.contact-list { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+
+@media (max-width: 480px) {
+    .anime-text { font-size: 14px; }
+    .game-logo { width: 76px; height: 76px; }
+    .game-logo img { width: 68px; height: 68px; }
+}
+
+/* EXPERIENCE SECTION — 整理为逐行、Anime 风格一样的布局 */
+.experience-text {
+    margin-top: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;                     /* 控制句与句之间间距 */
+    align-items: center;
+}
