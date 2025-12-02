@@ -285,6 +285,36 @@ h1 {
     .game-logo img { width: 68px; height: 68px; }
 }
 
+/* =====================
+   BILIBILI EMBED (responsive)
+   ===================== */
+.video-wrapper {
+    width: 80%;
+    max-width: 450px;
+    margin: 22px auto;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    background: #000;
+}
+.video-wrapper .iframe-container {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+}
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 480px) {
+    .video-wrapper { width: 95%; }
+}
+
 /* EXPERIENCE SECTION — 整理为逐行、Anime 风格一样的布局 */
 .experience-text {
     margin-top: 25px;
