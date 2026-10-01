@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -65,14 +65,6 @@
                 </svg>
             </a>
 
-            <a href="https://siyue114.com/" target="_blank" class="icon-link" aria-label="Open Blog" title="Blog">
-                <!-- Blog / link SVG -->
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M3 7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V17C21 18.1046 20.1046 19 19 19H5C3.89543 19 3 18.1046 3 17V7Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M7 9H17" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M7 13H13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </a>
         </div>
 
         <!-- Tags -->
@@ -84,6 +76,35 @@
         </div>
 
     </div>
+<!-- Floating music controls -->
+<div id="floating-player" class="floating-player" role="region" aria-label="背景音乐播放器" aria-live="polite" tabindex="0">
+    <div class="fp-art" aria-hidden="true">
+        <span class="fp-note">♪</span>
+        <span class="fp-wave"><i></i><i></i><i></i></span>
+    </div>
+    <div class="fp-controls">
+        <div class="fp-heading">
+            <div>
+                <span class="fp-kicker">NOW PLAYING</span>
+                <strong class="fp-title">Sirius 的背景音乐</strong>
+            </div>
+            <button type="button" class="fp-collapse" aria-label="收起音乐播放器" aria-expanded="true" title="收起">⌄</button>
+        </div>
+        <button type="button" class="fp-unmute" title="取消静音" aria-hidden="true">点击开启声音</button>
+        <div class="fp-top-row">
+            <button type="button" class="fp-play" aria-label="播放" title="播放"></button>
+            <input type="range" class="fp-progress" min="0" value="0" step="1" aria-label="进度" />
+        </div>
+        <div class="fp-bottom-row">
+            <div class="fp-times"><span class="fp-time-cur">0:00</span><span>/</span><span class="fp-time-dur">0:00</span></div>
+            <div class="fp-right">
+                <input type="range" class="fp-volume" min="0" max="1" step="0.01" value="0.8" aria-label="音量" title="音量" />
+                <button type="button" class="fp-mute" aria-label="静音" title="静音">♫</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </section>
 
 <!-- ===== SECTION 2: HOBBY ===== -->
@@ -109,30 +130,15 @@
             </a>
         </div>
 
-        <div class="game-logo" aria-label="game1" title="魔裁">
-            <a target="_blank" rel="noopener noreferrer">
-                <img src="images/game1.png" alt="魔裁" />
-            </a>
-        </div>
 
-        <div class="game-logo" aria-label="game2" title="LLJ">
-            <a target="_blank" rel="noopener noreferrer">
-                <img src="images/game2.png" alt="LLJ" />
-            </a>
-        </div>
 
-        <div class="game-logo" aria-label="game3" title="富婆妹">
-            <a target="_blank" rel="noopener noreferrer">
-                <img src="images/game3.png" alt="富婆妹" />
-            </a>
-        </div>
     </div>
 
     <!-- Hobby descriptive text (anime-style) -->
     <div class="hobby-text">
         <p class="anime-text">移动端音游玩家：Arcaea 双星</p>
-        <p class="anime-text">街机端音游玩家：舞萌 w55，音击白金</p>
-        <p class="anime-text">数学爱好者：分析学爱好者</p>
+        <p class="anime-text">街机端音游玩家：舞萌 w58，音击白金</p>
+        <p class="anime-text">数学爱好者：分析 · 代数 · 组合 · 图论</p>
     </div>
 
     <!-- Bilibili embed (responsive) -->
@@ -154,21 +160,7 @@
         <p class="anime-text">大学生活 = 音游 + Galgame + ACM/XCPC + 科研(计算机理论)</p>
     </div>
 
-    <div style="display: flex; gap: 20px; width: 50%;">
-  
-        <!-- 左侧 PDF -->
-        <iframe
-            src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/wxy460/ACM/refs/heads/main/template.pdf"
-            style="width: 50%; height: 400px; border: none;"
-        ></iframe>
 
-        <!-- 右侧 PDF -->
-        <iframe
-            src="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/wxy460/Collection-of-Real-Function-Theorem/refs/heads/main/%E5%AE%9E%E5%8F%98%E5%87%BD%E6%95%B0%E5%AE%9A%E7%90%86%E9%9B%86.pdf"
-            style="width: 50%; height: 400px; border: none;"
-        ></iframe>
-
-    </div>
 
 
 </section>
@@ -182,23 +174,6 @@
     </div>
 </section>
 
-<!-- ===== FLOATING AUDIO PLAYER ===== -->
-<div id="floating-player" class="floating-player" role="region" aria-label="Floating audio player" aria-live="polite" tabindex="0">
-    <div class="fp-controls" style="position:relative;">
-        <button type="button" class="fp-unmute" title="取消静音" aria-hidden="true">取消静音</button>
-        <div class="fp-top-row">
-            <button class="fp-play" aria-label="播放/暂停" title="播放">▶</button>
-            <div class="fp-times"><span class="fp-time-cur">0:00</span> / <span class="fp-time-dur">0:00</span></div>
-            <input type="range" class="fp-progress" min="0" value="0" step="1" aria-label="进度" />
-        </div>
-        <div class="fp-bottom-row">
-            <div class="fp-right">
-                <input type="range" class="fp-volume" min="0" max="1" step="0.01" value="0.8" aria-label="音量" title="音量" />
-                <button class="fp-mute" aria-label="静音" title="静音">🔊</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <script>
 /* Floating audio player: plays songs/song1.mp3 with play/pause, seek and volume controls + autoplay fallback */
@@ -215,6 +190,29 @@
     const vol = player.querySelector('.fp-volume');
     const muteBtn = player.querySelector('.fp-mute');
     const unmuteBtn = player.querySelector('.fp-unmute');
+    const collapseBtn = player.querySelector('.fp-collapse');
+
+    function setPlaying(isPlaying){
+        playBtn.dataset.playing = isPlaying ? 'true' : 'false';
+        playBtn.setAttribute('aria-label', isPlaying ? '暂停' : '播放');
+        playBtn.title = isPlaying ? '暂停' : '播放';
+        player.classList.toggle('is-playing', isPlaying);
+    }
+
+    function setCollapsed(isCollapsed){
+        player.classList.toggle('is-collapsed', isCollapsed);
+        collapseBtn.setAttribute('aria-expanded', String(!isCollapsed));
+        collapseBtn.setAttribute('aria-label', isCollapsed ? '展开音乐播放器' : '收起音乐播放器');
+        collapseBtn.title = isCollapsed ? '展开' : '收起';
+        collapseBtn.textContent = isCollapsed ? '⌃' : '⌄';
+        try { localStorage.setItem('sirius-player-collapsed', isCollapsed ? '1' : '0'); } catch (_) {}
+    }
+
+    try {
+        const savedPlayerState = localStorage.getItem('sirius-player-collapsed');
+        setCollapsed(savedPlayerState === null ? window.matchMedia('(max-width: 520px)').matches : savedPlayerState === '1');
+    } catch (_) { setCollapsed(window.matchMedia('(max-width: 520px)').matches); }
+    collapseBtn.addEventListener('click', ()=> setCollapsed(!player.classList.contains('is-collapsed')));
 
     // Initialize volume and visual fill
     audio.volume = parseFloat(vol.value) || 0.8;
@@ -234,44 +232,49 @@
     audio.addEventListener('timeupdate', ()=>{
         if (!progress.dragging) progress.value = Math.floor(audio.currentTime || 0);
         timeCur.textContent = formatTime(audio.currentTime || 0);
+        progress.style.setProperty('--progress', `${audio.duration ? (audio.currentTime / audio.duration) * 100 : 0}%`);
     });
 
-    audio.addEventListener('ended', ()=>{ playBtn.textContent = '▶'; });
+    audio.addEventListener('ended', ()=> setPlaying(false));
+    audio.addEventListener('pause', ()=> setPlaying(false));
+    audio.addEventListener('play', ()=> setPlaying(true));
 
     // Play / Pause
     playBtn.addEventListener('click', ()=>{
         if (audio.paused) {
             audio.play().catch(()=>{});
-            playBtn.textContent = '⏸';
         } else {
             audio.pause();
-            playBtn.textContent = '▶';
         }
     });
 
     // Progress interactions
-    progress.addEventListener('input', ()=>{ progress.dragging = true; timeCur.textContent = formatTime(progress.value); });
+    progress.addEventListener('input', ()=>{
+        progress.dragging = true;
+        timeCur.textContent = formatTime(progress.value);
+        progress.style.setProperty('--progress', `${progress.max ? (progress.value / progress.max) * 100 : 0}%`);
+    });
     progress.addEventListener('change', ()=>{ audio.currentTime = progress.value; progress.dragging = false; });
 
     // Volume
     vol.addEventListener('input', ()=>{
         audio.volume = parseFloat(vol.value);
         audio.muted = false;
-        muteBtn.textContent = '🔊';
+        muteBtn.classList.remove('is-muted');
         vol.style.setProperty('--vol', (parseFloat(vol.value) * 100).toString());
     });
 
     muteBtn.addEventListener('click', ()=>{
         audio.muted = !audio.muted;
-        muteBtn.textContent = audio.muted ? '🔈' : '🔊';
+        muteBtn.classList.toggle('is-muted', audio.muted);
     });
 
     // Autoplay attempt with muted fallback
     function tryAutoplay(){
-        audio.play().then(()=>{ playBtn.textContent = '⏸'; }).catch(()=>{
+        audio.play().catch(()=>{
             audio.muted = true;
             audio.play().catch(()=>{});
-            playBtn.textContent = '⏸';
+            muteBtn.classList.add('is-muted');
             if (unmuteBtn) unmuteBtn.style.display = 'inline-block';
         });
     }
@@ -281,13 +284,13 @@
         unmuteBtn.addEventListener('click', ()=>{
             audio.muted = false;
             audio.play().catch(()=>{});
-            muteBtn.textContent = '🔊';
+            muteBtn.classList.remove('is-muted');
             unmuteBtn.style.display = 'none';
         });
     }
 
-    // keyboard: space toggles play when player focused
-    player.addEventListener('keydown', (e)=>{ if (e.code === 'Space') { e.preventDefault(); playBtn.click(); } });
+    // Space toggles playback only when the player container is focused
+    player.addEventListener('keydown', (e)=>{ if (e.code === 'Space' && e.target === player) { e.preventDefault(); playBtn.click(); } });
 
 })();
 </script>

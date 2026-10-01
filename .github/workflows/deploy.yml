@@ -1,0 +1,68 @@
+name: Deploy website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sirius-site-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Package static website
+        run: tar -czf /tmp/sirius-site.tar.gz index.html style.css avatar.png images songs
+
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/id_ed25519 ~/.ssh/known_hosts
+
+      - name: Upload release
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          scp -o BatchMode=yes -o StrictHostKeyChecking=yes \
+            /tmp/sirius-site.tar.gz \
+            "$DEPLOY_USER@$DEPLOY_HOST:/tmp/sirius-site-$GITHUB_SHA.tar.gz"
+
+      - name: Activate release
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+        run: |
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" \
+            "SITE_ARCHIVE='/tmp/sirius-site-$GITHUB_SHA.tar.gz' RELEASE_ID='$(date -u +%Y%m%dT%H%M%SZ)-${GITHUB_SHA::7}' sh -s" <<'REMOTE'
+          set -eu
+          site_root=/var/www/sirius-site
+          release_dir="$site_root/releases/$RELEASE_ID"
+          mkdir -p "$release_dir"
+          tar -xzf "$SITE_ARCHIVE" -C "$release_dir"
+          find "$release_dir" -type d -exec chmod 755 {} +
+          find "$release_dir" -type f -exec chmod 644 {} +
+          rm -f "$site_root/current.next"
+          ln -s "$release_dir" "$site_root/current.next"
+          mv -Tf "$site_root/current.next" "$site_root/current"
+          rm -f "$SITE_ARCHIVE"
+          printf 'Deployed %s\n' "$RELEASE_ID"
+          REMOTE
+
+      - name: Verify production
+        run: curl --fail --silent --show-error --retry 5 --retry-delay 3 https://axeria.cn/ > /dev/null
